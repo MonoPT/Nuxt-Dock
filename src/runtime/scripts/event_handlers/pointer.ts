@@ -1,5 +1,6 @@
 import { Nuxt_Dock_Events, type pointer_move_event, type pointer_up_event } from "../../event_manager";
 import { emit_dock_event, find_dock, slide_tabs, update_dock } from "../../tabManager";
+import { reset_tab_drag } from "./tabs";
 
 export function mouse_move(event: pointer_move_event) {
     if (window._nuxt_dock_tab_drag.uuid.length <= 0) return;
@@ -49,16 +50,7 @@ export function mouse_up(event: pointer_up_event) {
 
     reset_tab_indexes();
 
-    const new_data = {
-        x: 0,
-        y: 0,
-        uuid: "",
-        is_detached: false,
-        original_index: 0,
-        ignore_reset: false
-    }
-
-    window._nuxt_dock_tab_drag = new_data;    
+    reset_tab_drag();  
 }
 
 const reset_tab_indexes = () => {

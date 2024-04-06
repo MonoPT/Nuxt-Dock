@@ -17,7 +17,8 @@ export default defineNuxtPlugin((nuxtApp) => {
         original_index: 0,
         ignore_reset: false
     };
-    
+
+  
     setup_mouse();
     setup();
   });

@@ -1,4 +1,5 @@
 import { update_dock } from "../../tabManager";
+import { reset_tab_drag, update_tab_index } from "./tabs";
 
 export function dock_mouse_enter(dock_uuid: string) {
     //Change owing dock if is being dragged
@@ -16,6 +17,9 @@ export function dock_mouse_enter(dock_uuid: string) {
 
     tab.tab_container_uuid = dock_uuid;
     tab.index = tabs_in_new_dock.length;
+
+    reset_tab_drag()
+    update_tab_index(tab.index, tab.uuid);
 
     update_dock(old_dock_uuid);
     update_dock(dock_uuid);

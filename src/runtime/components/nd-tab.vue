@@ -101,6 +101,14 @@
     })
   })
 
+  onMounted(() => {
+    window.addEventListener(Nuxt_Dock_Events.update_tab_index, (e: any) => {
+      const detail = e.detail;
+
+      if (detail.uuid !== tab_uuid) return;
+    })
+  })
+
 </script>
 
 <style lang="scss" scoped>
