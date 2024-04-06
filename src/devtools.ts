@@ -36,9 +36,9 @@ export function setupDevToolsUI(nuxt: Nuxt, resolver: Resolver) {
   nuxt.hook('devtools:customTabs', (tabs) => {
     tabs.push({
       // unique identifier
-      name: 'my-module',
+      name: 'nut-dock',
       // title to display in the tab
-      title: 'My Module',
+      title: 'Nuxt Dock',
       // any icon from Iconify, or a URL to an image
       icon: 'carbon:apps',
       // iframe view
