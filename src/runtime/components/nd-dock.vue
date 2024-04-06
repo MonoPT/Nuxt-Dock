@@ -32,8 +32,8 @@
 <script lang="ts" setup>
   import {onMounted, ref, watch} from "vue";
   import {v4 as uuidv4} from "uuid"
-  import type { Tab } from "../../../nuxt_dock/src/runtime/composables/types";
   import { Nuxt_Dock_Events } from "../event_manager";
+import type { Tab } from "../types";
 
   const props = defineProps({
     tabs: {
@@ -134,7 +134,6 @@
   .dock-wrapper {
     display: flex;
     flex-direction: column;
-    overflow: hidden;
     width: 100%;
     height: 100vh;
     color: var(--text-color);
@@ -155,7 +154,6 @@
       display: flex;
       width: 100%;
       height: 100%;
-      overflow-x: scroll;
       z-index: 2;
     }
   }

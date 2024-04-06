@@ -1,8 +1,8 @@
 <template>
   <div 
     class="nuxt_dock tab" 
-    :class="{border, isActive: tab_uuid === props.activeTab}"
-    @click="handle_tab_click"
+    :class="{border, isActive: tab_uuid === props.activeTab, is_being_dragged}"
+    @pointerdown="handle_tab_click"
     @mouseenter="handle_mouse_enter"
     @mouseleave="handle_mouse_leave"
   >
@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-  import {computed} from "vue"
+  import {computed, ref, onMounted} from "vue"
   import close_btn from "../local_components/close_btn.vue"
   import { Nuxt_Dock_Events } from "../event_manager";
 
@@ -35,6 +35,12 @@
   const border = computed(() => props.index > 0)
   const use_gap = computed(() => props.index > 0 ? 1 : 0);
 
+  //Dragged variables
+  const x = ref(0);
+  const y = ref(0);
+  const is_being_dragged = ref(false);
+  const original_index = ref(0);
+
   //Tab events
   const handle_tab_click = () => {
     window.dispatchEvent(new CustomEvent(Nuxt_Dock_Events.tab_clicked, {
@@ -42,7 +48,7 @@
         tab_uuid,
         dock_uuid: tab_uuid
       }
-    }))
+    }));
   }
 
   const handle_mouse_enter = () => {
@@ -71,6 +77,30 @@
     }))
   }
 
+  onMounted(() => {
+    window.addEventListener(Nuxt_Dock_Events.update_tab_position, (e: any) => {
+      const tab_data: {x: number, y: number, tab_uuid: string, original_index:number} = e.detail;
+
+      if (tab_data.tab_uuid !== tab_uuid) return
+
+      x.value = tab_data.x;
+      y.value = tab_data.y;
+      is_being_dragged.value = true;
+      original_index.value = tab_data.original_index
+    })
+  })
+
+  onMounted(() => { //Reset dragged position
+    window.addEventListener(Nuxt_Dock_Events.reset_tab_position, (e: any) => {
+      if (e.detail.uuid === tab_uuid) {
+        x.value = 0;
+        y.value = 0;
+      }
+
+      is_being_dragged.value = false;
+    })
+  })
+
 </script>
 
 <style lang="scss" scoped>
@@ -94,6 +124,8 @@
   }
 
 .tab {
+  --index: v-bind(index);
+
   display: flex;
   position: absolute;
   align-items: center;
@@ -101,8 +133,8 @@
   cursor: grab;
   bottom: 0;
   left: calc(
-    (var(--tab-width) * v-bind(index)) + 
-    (var(--tabs-gap) * v-bind(use_gap) * v-bind(index))
+    (var(--tab-width) * var(--index)) + 
+    (var(--tabs-gap) * v-bind(use_gap) * var(--index))
   );
   background-color: var(--tab-background-color);
   height: calc(100% - var(--tab-gap-from-top));
@@ -110,6 +142,7 @@
   border-top-left-radius: var(--tab-boder-radius);
   border-top-right-radius: var(--tab-boder-radius);
   transition: .12s;
+  translate: calc(1px * v-bind(x)) calc(1px * v-bind(y));
 
   * { //Disable pointer events for children
     pointer-events: none;
@@ -122,6 +155,13 @@
   &.isActive {
     background-color: var(--tab-active-background);
     z-index: 3;
+  }
+
+  &.is_being_dragged {
+    transition: 0s;
+    z-index: 99;
+    --index: v-bind(original_index);
+    pointer-events: none;
   }
 }
 </style>

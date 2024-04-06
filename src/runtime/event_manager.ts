@@ -8,8 +8,10 @@ export enum Nuxt_Dock_Events {
     mouse_enter = "mouseEnter",
     mouse_leave = "mouseLeave",
     Nuxt_Dock_pointer_move= "NuxtDockPointerMove",
-    Nuxt_Dock_pointer_up= "NuxtDockPointerUp",
-    Dock_Mouse_Enter = "Dock_Mouse_Enter"
+    Nuxt_Dock_pointer_up = "NuxtDockPointerUp",
+    Dock_Mouse_Enter = "Dock_Mouse_Enter",
+    update_tab_position = "UpdateTabPosition",
+    reset_tab_position = "ResetTabPosition"
 }
 
 

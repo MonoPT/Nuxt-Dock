@@ -1,4 +1,4 @@
-import type { tab_constructor, Dock } from "../runtime/composables/types"
+import type { tab_constructor, Dock } from "./types"
 import {v4 as uuidv4} from "uuid"
 import {Nuxt_Dock_Events} from "./event_manager"
 import {close_tab, tab_clicked, tab_mouse_enter, tab_mouse_leave} from "./scripts/event_handlers/tabs"
@@ -11,6 +11,12 @@ export function emit_dock_event(event_type: Nuxt_Dock_Events, data: Object) {
     }))
 }
 
+export function update_dock(dock_uuid: string) {
+    emit_dock_event(Nuxt_Dock_Events.update_tabs_signal, {
+        tab_container_uuid: dock_uuid
+    })
+}
+
 export function find_dock(dock_uuid: string) {
     const dock = window._nuxt_dock_docks.find((dock) => dock.uuid === dock_uuid);
     if (dock) return dock;
@@ -18,10 +24,6 @@ export function find_dock(dock_uuid: string) {
 }
 
 export function setup() {
-    window._nuxt_dock_docks = []; //Store all docks
-    window._nuxt_dock_tabManager = []; //Array that stores all tab data and parent dock
-    window._nuxt_dock_active_tabs = {}; //Object of active tabs
-    
     window._nuxt_dock_addTabs = (tab: tab_constructor | tab_constructor[], container_uuid: string) => {
         const tabs: tab_constructor [] = [...<[]>tab];
         const dock = find_dock(container_uuid)
@@ -47,9 +49,7 @@ export function setup() {
             }
         }
 
-        emit_dock_event(Nuxt_Dock_Events.update_tabs_signal, {
-            tab_container_uuid: container_uuid
-        })
+        update_dock(container_uuid);
 
         if (!dock) return
 
@@ -96,7 +96,7 @@ export function setup() {
     })
 
     window.addEventListener(Nuxt_Dock_Events.Nuxt_Dock_pointer_up, (e: any) => {
-        mouse_up(e.detail)
+        mouse_up(e.detail);
     })
 
     window.addEventListener(Nuxt_Dock_Events.Dock_Mouse_Enter, (e: any) => {
@@ -108,7 +108,11 @@ export function setup() {
 export function slide_tabs(dock: Dock | null, start_index: number, move_by_number = -1) {
     if (!dock) return;
 
-    window._nuxt_dock_tabManager.filter((tab) => tab.tab_container_uuid === dock.uuid && tab.index > start_index).forEach(tab => {
+    const tabs = window._nuxt_dock_tabManager.filter((tab) => tab.tab_container_uuid === dock.uuid && tab.index > start_index);
+    
+    tabs.forEach(tab => {
         tab.index += move_by_number;
     });
+
+    update_dock(dock.uuid);
 }

@@ -1,4 +1,4 @@
-import { Nuxt_Dock_Events } from "../../event_manager";
+import { Nuxt_Dock_Events, type pointer_up_event } from "../../event_manager";
 import { emit_dock_event, find_dock, slide_tabs } from "../../tabManager";
 
 export function close_tab(tab_uuid: string) {
@@ -41,16 +41,14 @@ export function close_tab(tab_uuid: string) {
     });
 
     slide_tabs(dock, tab_index);
-
-    emit_dock_event(Nuxt_Dock_Events.update_tabs_signal, {
-        tab_container_uuid: parent_dock_uuid
-    })
 }
 
 export function tab_clicked(tab_uuid: string) {
     const tab = window._nuxt_dock_tabManager.find((tab) => tab.uuid === tab_uuid);
 
     if (!tab) return;
+
+    window._nuxt_dock_tab_drag.uuid = tab_uuid;
 
     const dock = find_dock(tab.tab_container_uuid);
 
@@ -65,7 +63,7 @@ export function tab_clicked(tab_uuid: string) {
 }
 
 export function tab_mouse_enter(dock_uuid: string, tab_uuid: string) {
-    
+    console.log("entered tab")
 }
 
 export function tab_mouse_leave(dock_uuid: string, tab_uuid: string) {

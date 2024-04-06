@@ -27,6 +27,14 @@ export declare global {
         _nuxt_dock_addTabs: Function;
         _nuxt_dock_docks: Dock[];
         _nuxt_dock_active_tabs: Active_tabs;
+        _nuxt_dock_tab_drag: {
+            uuid: string,
+            x: number,
+            y: number,
+            is_detached: boolean,
+            original_index: number,
+            ignore_reset: boolean
+        }; 
     }
 }
 
