@@ -31,10 +31,8 @@ export type pointer_move_event = {
 export function setup_mouse() {
 
     /**
-     * 
-     * Send event from iframes to main window
-     * 
-     */
+    * Send event from iframes to main window
+    */
 
     window.addEventListener("pointermove", (e) => {
         
@@ -59,10 +57,8 @@ export function setup_mouse() {
 
 
     /**
-     * 
-     * Trigger event in main window
-     * 
-     */
+    * Trigger event from main window
+    */
 
     window.addEventListener('message', function(event) { 
         const event_to_trigger = event.data.event_type;

@@ -13,6 +13,7 @@
 <script lang="ts" setup>
   import {computed} from "vue"
   import close_btn from "../local_components/close_btn.vue"
+  import { Nuxt_Dock_Events } from "../event_manager";
 
   const props = defineProps({
     index: {
@@ -36,7 +37,7 @@
 
   //Tab events
   const handle_tab_click = () => {
-    window.dispatchEvent(new CustomEvent("tabClicked", {
+    window.dispatchEvent(new CustomEvent(Nuxt_Dock_Events.tab_clicked, {
       detail: {
         tab_uuid,
         dock_uuid: tab_uuid
@@ -45,7 +46,7 @@
   }
 
   const handle_mouse_enter = () => {
-    window.dispatchEvent(new CustomEvent("mouseEnter", {
+    window.dispatchEvent(new CustomEvent(Nuxt_Dock_Events.mouse_enter, {
       detail: {
         tab_uuid,
         dock_uuid: tab_uuid
@@ -54,7 +55,7 @@
   }
 
   const handle_mouse_leave = () => {
-    window.dispatchEvent(new CustomEvent("mouseLeave", {
+    window.dispatchEvent(new CustomEvent(Nuxt_Dock_Events.mouse_leave, {
       detail: {
         tab_uuid,
         dock_uuid: tab_uuid
@@ -63,7 +64,7 @@
   }
 
   const handle_close = () => {
-    window.dispatchEvent(new CustomEvent("closeTab", {
+    window.dispatchEvent(new CustomEvent(Nuxt_Dock_Events.close_tab, {
       detail: {
         tab_uuid
       }

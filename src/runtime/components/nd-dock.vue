@@ -33,7 +33,7 @@
   import {onMounted, ref, watch} from "vue";
   import {v4 as uuidv4} from "uuid"
   import type { Tab } from "../../../nuxt_dock/src/runtime/composables/types";
-  import type { Nuxt_Dock_Events } from "../event_manager";
+  import { Nuxt_Dock_Events } from "../event_manager";
 
   const props = defineProps({
     tabs: {
@@ -48,7 +48,7 @@
   const active_tab_uuid = ref("");
 
   onMounted(() => {
-    window.dispatchEvent(new CustomEvent("RegisterDock", {
+    window.dispatchEvent(new CustomEvent(Nuxt_Dock_Events.register_dock, {
       detail: {
         uuid: dock_uuid
       }
@@ -64,7 +64,7 @@
   }
 
   onMounted(() => { //Update tabs whenever there is a change
-    window.addEventListener("updateTabs", (event) => {
+    window.addEventListener(Nuxt_Dock_Events.update_tabs_signal, (event) => {
       //@ts-ignore
       const details = event.detail;
       
@@ -75,7 +75,7 @@
       tabs_list.value = window._nuxt_dock_tabManager.filter((tab: Tab) => tab.tab_container_uuid === dock_uuid);
     })
 
-    window.addEventListener("updateActiveTabUUID", (event) => {
+    window.addEventListener(Nuxt_Dock_Events.update_active_tab_uuid, (event) => {
       //@ts-ignore
       const details = event.detail;
 
@@ -88,7 +88,7 @@
   })
 
   const handle_mouse_enter = () => {
-    window.dispatchEvent(new CustomEvent("Dock_Mouse_Enter", {
+    window.dispatchEvent(new CustomEvent(Nuxt_Dock_Events.Dock_Mouse_Enter, {
       detail: {
         dock_uuid: dock_uuid
       }

@@ -44,8 +44,6 @@ export function setup() {
                     dock.active_tab_uuid = uuid
                 }
             }
-            
-            
         }
 
         emit_dock_event(Nuxt_Dock_Events.update_tabs_signal, {
@@ -81,7 +79,7 @@ export function setup() {
         })
     })
 
-    window.addEventListener("RegisterDock", (e) => { //Register dock
+    window.addEventListener(Nuxt_Dock_Events.register_dock, (e) => { //Register dock
         //@ts-ignore
         const dock_uuid = e.detail.uuid;
 
