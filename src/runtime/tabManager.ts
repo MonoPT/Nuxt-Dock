@@ -3,7 +3,7 @@ import {v4 as uuidv4} from "uuid"
 import {Nuxt_Dock_Events} from "./event_manager"
 import {close_tab, tab_clicked, tab_mouse_enter, tab_mouse_leave} from "./scripts/event_handlers/tabs"
 import { mouse_move, mouse_up } from "./scripts/event_handlers/pointer";
-import { dock_mouse_enter } from "./scripts/event_handlers/dock";
+import { dock_mouse_enter, dock_mouse_leave } from "./scripts/event_handlers/dock";
 
 export function emit_dock_event(event_type: Nuxt_Dock_Events, data: Object) {
     window.dispatchEvent(new CustomEvent(event_type, {
@@ -101,6 +101,10 @@ export function setup() {
 
     window.addEventListener(Nuxt_Dock_Events.Dock_Mouse_Enter, (e: any) => {
         dock_mouse_enter(e.detail.dock_uuid)
+    })
+
+    window.addEventListener(Nuxt_Dock_Events.Dock_Mouse_Leave, (e: any) => {
+        dock_mouse_leave()
     })
 }
 

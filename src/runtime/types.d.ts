@@ -34,7 +34,8 @@ export declare global {
             is_detached: boolean,
             original_index: number,
             ignore_reset: boolean,
-            dock_when_mouse_up: string
+            dock_when_mouse_up: string,
+            last_tab_hovered_uuid: string
         }; 
     }
 }

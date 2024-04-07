@@ -16,7 +16,8 @@ export default defineNuxtPlugin((nuxtApp) => {
         is_detached: false,
         original_index: 0,
         ignore_reset: false,
-        dock_when_mouse_up: ""
+        dock_when_mouse_up: "",
+        last_tab_hovered_uuid: ""
     };
 
   

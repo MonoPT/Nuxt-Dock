@@ -4,6 +4,7 @@
       <div 
         class="tabs-wrapper nuxt_dock"
         @mouseenter="handle_mouse_enter"
+        @mouseleave="handle_mouse_leave"
       >
         <nd-tab 
           v-for="_tab in tabs_list" 
@@ -33,13 +34,17 @@
   import {onMounted, ref, watch} from "vue";
   import {v4 as uuidv4} from "uuid"
   import { Nuxt_Dock_Events } from "../event_manager";
-import type { Tab } from "../types";
+  import type { Tab } from "../types";
 
   const props = defineProps({
     tabs: {
       required: false,
       default: () => [],
       type: Array
+    },
+    area: {
+      default: "a",
+      type: String
     }
   });
 
@@ -95,6 +100,10 @@ import type { Tab } from "../types";
     }))
   }
 
+  const handle_mouse_leave = () => {
+    window.dispatchEvent(new Event(Nuxt_Dock_Events.Dock_Mouse_Leave))
+  }
+
   onMounted(() => { //Register tabs from props
     //@ts-ignore
     window._nuxt_dock_addTabs(props.tabs, dock_uuid); //Add default tabs
@@ -135,8 +144,9 @@ import type { Tab } from "../types";
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100vh;
+    height: 100%;
     color: var(--text-color);
+    grid-area: v-bind(area);
 
     background-color: var(--dock-area-background);
   }

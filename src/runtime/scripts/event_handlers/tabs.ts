@@ -63,11 +63,13 @@ export function tab_clicked(tab_uuid: string) {
 }
 
 export function tab_mouse_enter(dock_uuid: string, tab_uuid: string) {
-    console.log("entered tab")
+    if(window._nuxt_dock_tab_drag.uuid.length <= 0) return
+    
+    window._nuxt_dock_tab_drag.last_tab_hovered_uuid = tab_uuid;
 }
 
 export function tab_mouse_leave(dock_uuid: string, tab_uuid: string) {
-    
+    window._nuxt_dock_tab_drag.last_tab_hovered_uuid = "";
 }
 
 export function update_tab_index(new_index: number, tab_uuid: string) {
@@ -85,7 +87,8 @@ export function reset_tab_drag() {
         is_detached: false,
         original_index: 0,
         ignore_reset: false,
-        dock_when_mouse_up: ""
+        dock_when_mouse_up: "",
+        last_tab_hovered_uuid: ""
     }
 
     window._nuxt_dock_tab_drag = new_data;  

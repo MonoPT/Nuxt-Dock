@@ -6,7 +6,7 @@
     @mouseenter="handle_mouse_enter"
     @mouseleave="handle_mouse_leave"
   >
-    <slot /> <close_btn @click.stop="handle_close" />
+    <slot />({{ props.index }}) <close_btn @click.stop="handle_close" />
   </div>
 </template>
 
