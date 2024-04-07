@@ -84,7 +84,8 @@ export function reset_tab_drag() {
         uuid: "",
         is_detached: false,
         original_index: 0,
-        ignore_reset: false
+        ignore_reset: false,
+        dock_when_mouse_up: ""
     }
 
     window._nuxt_dock_tab_drag = new_data;  

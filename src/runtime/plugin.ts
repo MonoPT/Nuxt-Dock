@@ -15,7 +15,8 @@ export default defineNuxtPlugin((nuxtApp) => {
         y: 0,
         is_detached: false,
         original_index: 0,
-        ignore_reset: false
+        ignore_reset: false,
+        dock_when_mouse_up: ""
     };
 
   

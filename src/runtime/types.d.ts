@@ -33,7 +33,8 @@ export declare global {
             y: number,
             is_detached: boolean,
             original_index: number,
-            ignore_reset: boolean
+            ignore_reset: boolean,
+            dock_when_mouse_up: string
         }; 
     }
 }
